@@ -1,4 +1,3 @@
 # algorithms
 
-#### my attempts at solving questions from Algorithms (part 1) course at courseera.
-###### ps: i am alien to Java.
+##### my attempts at solving questions (in Go) from Algorithms course at courseera. 
