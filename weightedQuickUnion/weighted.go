@@ -39,20 +39,25 @@ func (w *WeightedQuickUnionUF) Union(p, q int) {
 		return
 	}
 
+	// fmt.Println("|Items: ", p, q, "|Arr: ", w.arr[p], w.arr[q])
+	// fmt.Println("|Roots: ", rootp, rootq, "|ArrSize: ", w.arrSize[rootp], w.arrSize[rootq])
+	// fmt.Println("|Sets: ", w.setMap)
+
+	//fmt.Println("1: ", w.setMap[rootp], w.setMap[rootq], w.arr)
 	if w.arrSize[rootp] >= w.arrSize[rootq] {
-		w.arr[q] = rootp
-		w.arrSize[p] += w.arrSize[q]
+		w.arr[rootq] = rootp
+		w.arrSize[rootp] += w.arrSize[rootq]
 		w.setMap[rootp] = append(w.setMap[rootp], w.setMap[rootq]...)
 		delete(w.setMap, rootq)
 	} else {
-		w.arr[p] = rootq
-		w.arrSize[q] += w.arrSize[p]
-		w.setMap[rootp] = append(w.setMap[rootq], w.setMap[rootp]...)
+		w.arr[rootp] = rootq
+		w.arrSize[rootq] += w.arrSize[rootp]
+		w.setMap[rootq] = append(w.setMap[rootq], w.setMap[rootp]...)
 		delete(w.setMap, rootp)
 	}
+	//fmt.Println("2: ", w.setMap[rootp], w.setMap[rootq], w.arr)
 
 	w.sets--
-	fmt.Println("count:", w.sets)
 }
 
 func (w *WeightedQuickUnionUF) Connected(p, q int) bool {
@@ -64,7 +69,7 @@ func (w *WeightedQuickUnionUF) Count() int {
 }
 
 func (w *WeightedQuickUnionUF) LogData() string {
-	str := fmt.Sprintln("|Arr: ", w.arr, "|ArrSize", w.arrSize, "|Sets:\n", w.setMap)
+	str := fmt.Sprintln("|Arr: ", w.arr, "|ArrSize", w.arrSize, "\n|Sets:", w.setMap)
 	return str
 }
 
