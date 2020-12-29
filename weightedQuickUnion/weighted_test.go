@@ -38,6 +38,12 @@ func TestWeighted1(t *testing.T) {
 	w.Union(2, 5)
 	c = w.Count()
 	assert.Equal(t, 6, c)
+
+	act := w.Find(0)
+	assert.Equal(t, act, 6)
+
+	act = w.Find(1)
+	assert.Equal(t, act, 3)
 }
 
 func TestWeighted2(t *testing.T) {
@@ -67,4 +73,43 @@ func TestWeighted2(t *testing.T) {
 	t.Logf(w.LogData())
 	got = w.Count()
 	assert.Equal(t, 1, got)
+}
+
+func TestFind(t *testing.T) {
+	w := NewWeightedQuickUnionUF(10)
+	t.Logf(w.LogData())
+
+	w.Union(6, 9)
+	w.Union(1, 6)
+	w.Union(3, 1)
+	t.Logf(w.LogData())
+
+	want := 9
+	got := w.Find(3)
+	assert.Equal(t, want, got)
+
+	got = w.Find(1)
+	assert.Equal(t, want, got)
+
+	got = w.Find(9)
+	assert.Equal(t, want, got)
+
+	w.Union(0, 5)
+	w.Union(4, 7)
+	w.Union(2, 0)
+	w.Union(2, 7)
+	t.Logf(w.LogData())
+
+	want = 7
+	got = w.Find(2)
+	assert.Equal(t, want, got)
+
+	got = w.Find(4)
+	assert.Equal(t, want, got)
+
+	got = w.Find(0)
+	assert.Equal(t, want, got)
+
+	got = w.Find(7)
+	assert.Equal(t, want, got)
 }

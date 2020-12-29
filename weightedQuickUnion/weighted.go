@@ -60,6 +60,19 @@ func (w *WeightedQuickUnionUF) Union(p, q int) {
 	w.sets--
 }
 
+func (w *WeightedQuickUnionUF) Find(p int) int {
+	rootp := w.root(p)
+	max := rootp
+
+	for _, v := range w.setMap[rootp] {
+		if v > max {
+			max = v
+		}
+	}
+
+	return max
+}
+
 func (w *WeightedQuickUnionUF) Connected(p, q int) bool {
 	return w.root(p) == w.root(q)
 }
