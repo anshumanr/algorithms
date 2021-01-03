@@ -41,9 +41,8 @@ func (w *WeightedQuickUnionUF) Union(p, q int) {
 
 	// fmt.Println("|Items: ", p, q, "|Arr: ", w.arr[p], w.arr[q])
 	// fmt.Println("|Roots: ", rootp, rootq, "|ArrSize: ", w.arrSize[rootp], w.arrSize[rootq])
-	// fmt.Println("|Sets: ", w.setMap)
+	// fmt.Println("1: ", w.setMap[rootp], w.setMap[rootq], w.arr)
 
-	//fmt.Println("1: ", w.setMap[rootp], w.setMap[rootq], w.arr)
 	if w.arrSize[rootp] >= w.arrSize[rootq] {
 		w.arr[rootq] = rootp
 		w.arrSize[rootp] += w.arrSize[rootq]
@@ -55,7 +54,9 @@ func (w *WeightedQuickUnionUF) Union(p, q int) {
 		w.setMap[rootq] = append(w.setMap[rootq], w.setMap[rootp]...)
 		delete(w.setMap, rootp)
 	}
-	//fmt.Println("2: ", w.setMap[rootp], w.setMap[rootq], w.arr)
+
+	// fmt.Println("2: ", w.setMap[rootp], w.setMap[rootq], w.arr)
+	// fmt.Println("|Sets: ", w.setMap)
 
 	w.sets--
 }
