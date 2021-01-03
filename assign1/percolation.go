@@ -8,16 +8,20 @@ import (
 type Percolation struct {
 	size      int
 	max       int
+	first     int
+	last      int
 	openCount int
 	open      []bool
 	uf        *wquf.WeightedQuickUnionUF
 }
 
 func NewPercolation(s int) *Percolation {
-	m := s*s + 1
+	m := s*s + 2
 	p := &Percolation{
 		size:      s,
 		max:       m,
+		first:     m - 2,
+		last:      m - 1,
 		openCount: 0,
 		open:      make([]bool, m),
 		uf:        wquf.NewWeightedQuickUnionUF(m),
@@ -41,6 +45,15 @@ func (p *Percolation) Open(row, col int) error {
 
 	index := p.getIndex(row, col)
 	//fmt.Println("Open: ", row, col, index)
+
+	if row == 0 {
+		p.uf.Union(p.first, index)
+	}
+
+	if row == p.size-1 {
+		p.uf.Union(p.last, index)
+		//p.uf2.Union(p.last, index)
+	}
 
 	//upper
 	if row > 0 && p.isOpen(row-1, col) {
@@ -77,14 +90,7 @@ func (p *Percolation) IsOpen(row, col int) bool {
 }
 
 func (p *Percolation) Percolates() bool {
-	for i := 0; i < p.size; i++ {
-		f := p.uf.Find(i)
-		//fmt.Println("=====> ", i, f)
-		if f >= p.size*(p.size-1) {
-			return true
-		}
-	}
-	return false
+	return p.uf.Connected(p.first, p.last)
 }
 
 func (p *Percolation) IsFull(row, col int) bool {

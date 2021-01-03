@@ -63,7 +63,7 @@ func TestPercolation(t *testing.T) {
 		}
 
 		got := p.Percolates()
-		t.Log(v.name, p.LogData(), p.uf.LogData())
+		t.Log(v.name, p.LogData())
 		assert.Equal(t, v.want, got)
 	}
 }
